@@ -1,0 +1,6 @@
+AMD Ryzen 7 5800H
+
+ base: 1563
+ baseline with power saver mode: 1565
+ avx2: 1563
+ x86_64: 70
