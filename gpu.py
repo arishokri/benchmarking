@@ -4,6 +4,12 @@ import time
 # Adjust the following value to match your CPU's number of cores.
 tf.config.threading.set_inter_op_parallelism_threads(16)
 
+# Check if a GPU is available
+if tf.config.list_physical_devices('GPU'):
+    print("Using GPU")
+else:
+    print("No GPU found, using CPU")
+
 # Define the matrices to be multiplied
 matrix1 = tf.random.normal([20000, 20000])
 matrix2 = tf.random.normal([20000, 20000])
