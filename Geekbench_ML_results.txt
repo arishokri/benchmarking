@@ -1,17 +1,38 @@
 Download from https://www.geekbench.com/ml/
 
-AMD Ryzen 7 5800H
+## AMD Ryzen 7 5800H
 
- Ubuntu:	
+### Ubuntu:	
  base: 1563
- base with power saver mode: 1565
+ baseline with power saver mode: 1565
  avx2: 1563
  x86_64: 70
 
-Intel Core Ultra 7 155H
+## Intel Core Ultra 7 155H
  
- Ubuntu:
+### Ubuntu:
  base: 1313
- base with power saver mode:802
+ baseline with power saver mode:802
  avx2:1325
  x86_64:77
+
+### Windows:
+
+#### Plugged-In
+ CPU on *Performance (baseline): 3029 - 2955
+ CPU on Balanced: 2867
+ CPU on Power Efficiency: 2888
+
+DirectML on *Performance: 2739
+
+#### Battery
+ CPU on *Performance (baseline): 2841
+ CPU on Balanced: 2790 - 2799
+ CPU on Battery Saver: 2040 - 2095
+
+DirectML on *Performance: 2472
+
+### WSL2
+ base: 1421
+ avx2: 1456
+ x86_64: takes too long
