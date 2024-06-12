@@ -4,7 +4,7 @@ AMD Ryzen 7 5800H
 
  Ubuntu:	
  base: 1563
- baseline with power saver mode: 1565
+ base with power saver mode: 1565
  avx2: 1563
  x86_64: 70
 
@@ -12,6 +12,6 @@ Intel Core Ultra 7 155H
  
  Ubuntu:
  base: 1313
- baseline with power saver mode:802
+ base with power saver mode:802
  avx2:1325
  x86_64:77

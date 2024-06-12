@@ -11,8 +11,8 @@ else:
     print("No GPU found, using CPU")
 
 # Define the matrices to be multiplied
-matrix1 = tf.random.normal([20000, 20000])
-matrix2 = tf.random.normal([20000, 20000])
+matrix1 = tf.random.normal([15000, 15000])
+matrix2 = tf.random.normal([15000, 15000])
 
 # Start the timer
 start_time = time.time()
