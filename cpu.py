@@ -11,7 +11,7 @@ def fib(n):
 start_time = time.time()
 
 # Call the function to be benchmarked
-result = fib(40)
+result = fib(45)
 
 # End the timer
 end_time = time.time()

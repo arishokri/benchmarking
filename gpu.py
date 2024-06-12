@@ -2,8 +2,8 @@ import tensorflow as tf
 import time
 
 # Define the matrices to be multiplied
-matrix1 = tf.random.normal([10000, 10000])
-matrix2 = tf.random.normal([10000, 10000])
+matrix1 = tf.random.normal([20000, 20000])
+matrix2 = tf.random.normal([20000, 20000])
 
 # Start the timer
 start_time = time.time()
