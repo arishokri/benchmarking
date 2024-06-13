@@ -36,3 +36,32 @@ DirectML on *Performance: 2472
  base: 1421
  avx2: 1456
  x86_64: takes too long
+
+## Intel Core Ultra 9 185H
+ 
+### Pop!OS:
+ base:
+ baseline with power saver mode:
+ avx2:
+ x86_64:
+
+### Windows:
+
+#### Plugged-In
+ CPU on *Performance (baseline):
+ CPU on Balanced:
+ CPU on Power Efficiency:
+
+DirectML on *Performance:
+
+#### Battery
+ CPU on *Performance (baseline):
+ CPU on Balanced:
+ CPU on Battery Saver:
+
+DirectML on *Performance:
+
+### WSL2
+ base: 1421
+ avx2: 1456
+ x86_64: takes too long
