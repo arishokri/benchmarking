@@ -15,6 +15,12 @@
 | Ubuntu  | 94s | 37s |
 | WSL2    | 83s | 10s |
 
+## Asus Duo Ultra 9 185h
+|         | CPU | GPU |
+|---------|-----|-----|
+| Pop!OS  | s   | s   |
+| WSL2    | 79s | 9s  |
+
 ## HP Dragonfly
 |         | CPU | GPU |
 |---------|-----|-----|

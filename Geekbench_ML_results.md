@@ -63,13 +63,13 @@ Download from https://www.geekbench.com/ml/
 ### Windows:
 
 #### Plugged-In
- CPU on *Performance (baseline): 2564 - 2338 - 2643 - 2472 - 2416 - 2781
+ CPU on *Performance (baseline): 2564 - 2338 - 2643 - 2472 - 2416 - 2781 - 2920
 
  CPU on Balanced: 2764
 
  CPU on Power Efficiency: 2846
  
- DirectML on *Performance: 2762 - 2783
+ DirectML on *Performance: 2762 - 2783 - 2757
 
 #### Battery
  CPU on *Performance (baseline):
