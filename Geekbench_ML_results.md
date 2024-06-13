@@ -86,3 +86,33 @@ Download from https://www.geekbench.com/ml/
  avx2:
  
  x86_64:
+
+ ## AMD Ryzen 7 7736U
+
+ ### Windows
+
+ #### Plugged-In
+ CPU on *Performance (baseline): 2606
+
+ CPU on Balanced:
+
+ CPU on Power Efficiency:
+ 
+ DirectML on *Performance:
+
+#### Battery
+ CPU on *Performance (baseline):
+
+ CPU on Balanced:
+
+ CPU on Battery Saver:
+
+ DirectML on *Performance:
+
+### WSL2
+ base:
+
+ avx2:
+ 
+ x86_64:
+ 
