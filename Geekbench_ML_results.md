@@ -120,9 +120,11 @@ Download from https://www.geekbench.com/ml/
 ## Macbook M3 Pro
 
 ### Plugged-In
-CPU: 
-DirectML: 
+ CPU: 4111
+ 
+ GPU: 6961
+ 
+ Neural Engine: 9550
 
 ### Battery
-CPU:
-DirectML:
+
