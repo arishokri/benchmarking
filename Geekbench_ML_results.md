@@ -115,4 +115,14 @@ Download from https://www.geekbench.com/ml/
  avx2:
  
  x86_64:
- 
+
+
+## Macbook M3 Pro
+
+### Plugged-In
+CPU: 
+DirectML: 
+
+### Battery
+CPU:
+DirectML:
