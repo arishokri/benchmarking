@@ -91,23 +91,21 @@ Download from https://www.geekbench.com/ml/
 
  ### Windows
 
+ This machine automatically adjusts the power settings based on the load.
+
  #### Plugged-In
- CPU on *Performance (baseline): 2606
-
- CPU on Balanced:
-
- CPU on Power Efficiency:
+ CPU: 2606
  
- DirectML on *Performance:
+ DirectML: 4546
 
 #### Battery
- CPU on *Performance (baseline):
-
- CPU on Balanced:
+ CPU:
 
  CPU on Battery Saver:
 
- DirectML on *Performance:
+ DirectML:
+
+ DirectML on Battery Saver;
 
 ### WSL2
  base:
