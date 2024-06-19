@@ -1,6 +1,9 @@
 import tensorflow as tf
 import time
 
+# Adjust for the size of the matrices. The higher value results in longer execution time.
+matrix_n = 15000
+
 # Adjust the following value to match your CPU's number of cores.
 tf.config.threading.set_inter_op_parallelism_threads(16)
 
@@ -11,8 +14,8 @@ else:
     print("No GPU found, using CPU")
 
 # Define the matrices to be multiplied
-matrix1 = tf.random.normal([15000, 15000])
-matrix2 = tf.random.normal([15000, 15000])
+matrix1 = tf.random.normal([matrix_n, matrix_n])
+matrix2 = tf.random.normal([matrix_n, matrix_n])
 
 # Start the timer
 start_time = time.time()
