@@ -2,7 +2,7 @@ import tensorflow as tf
 import time
 
 # Adjust for the size of the matrices. The higher value results in longer execution time.
-matrix_n = 15000
+matrix_n = 20000
 
 # Adjust the following value to match your CPU's number of cores.
 tf.config.threading.set_inter_op_parallelism_threads(16)

@@ -124,5 +124,4 @@ Download from https://www.geekbench.com/ml/
  
  Neural Engine: 9550
 
-### Battery
 
