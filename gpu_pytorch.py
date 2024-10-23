@@ -17,13 +17,13 @@ def stress_gpu_with_matrix_operations(matrix_size, iterations):
         int: The number of matrix multiplications performed.
     """
     size = matrix_size  # Adjust size as needed to stress the GPU
-    # Create large matrices for multiplication on GPU (CUDA)
-    matrix_a = torch.rand(size, size, device="cuda")
-    matrix_b = torch.rand(size, size, device="cuda")
     # Track time and number of multiplications
     start_time = time.time()
     iteration = 0
     while iteration < iterations:
+        # Create large matrices for multiplication on GPU (CUDA)
+        matrix_a = torch.rand(size, size, device="cuda")
+        matrix_b = torch.rand(size, size, device="cuda")
         # Run matrix multiplications until the number of iterations is reached.
         torch.matmul(matrix_a, matrix_b)  # Matrix multiplication using PyTorch
         # torch.cuda.synchronize()  # Ensure GPU operations complete
@@ -97,12 +97,12 @@ def log_performance(
             print(log_entry.strip())
             f.write(log_entry)
             # Wait for a number of seconds.
-            time.sleep(5)
+            time.sleep(2)
 
 
 if __name__ == "__main__":
-    duration = 900  # sets test duration in seconds
-    matrix_size = 25000
+    duration = 300  # sets test duration in seconds
+    matrix_size = 20000
     iterations = 100
     os.makedirs("logs", exist_ok=True)
     log_file = f"logs/pytorch_{duration}s"
