@@ -102,7 +102,7 @@ def log_performance(
 
 if __name__ == "__main__":
     duration = 300  # sets test duration in seconds
-    matrix_size = 20000
+    matrix_size = 15000
     iterations = 100
     os.makedirs("logs", exist_ok=True)
     log_file = f"logs/pytorch_{duration}s"
