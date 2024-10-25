@@ -34,8 +34,13 @@
 | WSL2    | 110 |   12s  |
 
 ## Macbook Pro M3 Pro
-#### On Battery
 |         | CPU |  GPU_tf |
 |---------|-----| --------|
 | Battery | 110 |  <0.1s  |
 | Plugged | 170 |  <0.1s  |
+
+## Macbook Air M3
+|         | CPU | GPU_tf | GPU_pt |
+|---------|-----|--------|--------|
+| Battery |     |   N/A  |  303s  |
+| Plugged |     |        |   9s   |
