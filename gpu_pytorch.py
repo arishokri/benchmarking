@@ -33,22 +33,6 @@ def stress_gpu_with_matrix_operations(matrix_size, iterations, torch_device) -> 
     return runtime
 
 
-def get_gpu_temp(system="Linux") -> Tuple[int, int]:
-    # Only works on Linux platform.
-    if system == "Linux":
-        pynvml.nvmlInit()
-        handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # Assumes the first GPU
-        temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
-        utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
-        clock = utilization.gpu
-        memory = utilization.memory
-    elif system == "Darwin":
-        temp = clock = memory = "Running on Darwin System"
-    else:
-        temp = clock = memory = "Running on Unknown OperatingSystem"
-    return temp, clock, memory
-
-
 def get_cpu_temp(system="Linux") -> int:
     """
     This will only work on Linux
@@ -69,6 +53,22 @@ def get_cpu_temp(system="Linux") -> int:
     return package_temp, core_1, core_2
 
 
+def get_gpu_temp(system="Linux") -> Tuple[int, int]:
+    # Only works on Linux platform.
+    if system == "Linux":
+        pynvml.nvmlInit()
+        handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # Assumes the first GPU
+        temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
+        utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
+        clock = utilization.gpu
+        memory = utilization.memory
+    elif system == "Darwin":
+        temp = clock = memory = "Running on Darwin System"
+    else:
+        temp = clock = memory = "Running on Unknown OperatingSystem"
+    return temp, clock, memory
+
+
 def log_performance(
     logfile, test_duration=60, matrix_size=1024, iterations=10, system="Linux"
 ) -> None:
@@ -80,8 +80,10 @@ def log_performance(
         raise SystemError("Unknown/Unsupported Operating System")
 
     with open(logfile, "a") as f:
-        header = ("Timestamp, GPU Temp (°C), GPU Clock (%), GPU Memory (%), "
-                  "CPU Package (°C), CPU Core 1 (°C), CPU Core 2 (°C), Matrix Time (s)\n")
+        header = (
+            "Timestamp, GPU Temp (°C), GPU Clock (%), GPU Memory (%), "
+            "CPU Package (°C), CPU Core 1 (°C), CPU Core 2 (°C), Matrix Time (s)\n"
+        )
         print(header + "\n")
         f.write(header)
         start_time = time.time()
@@ -97,9 +99,11 @@ def log_performance(
             )
             # Get CPU and GPU metrics on systems that support them.
             # Log metrics
-            log_entry = (f"{timestamp}, {gpu_temp}, {gpu_clock}, {gpu_memory}, "
-                         f"{cpu_package}, {cpu_core_1}, {cpu_core_2}, {matrix_time:.4f}\n")
-            
+            log_entry = (
+                f"{timestamp}, {gpu_temp}, {gpu_clock}, {gpu_memory}, "
+                f"{cpu_package}, {cpu_core_1}, {cpu_core_2}, {matrix_time:.4f}\n"
+            )
+
             print(log_entry.strip())
             f.write(log_entry)
             # Wait for a number of seconds.
@@ -120,7 +124,7 @@ if __name__ == "__main__":
         torch_device = "mps"
 
     os.makedirs("logs", exist_ok=True)
-    log_file = f"logs/pytorch_{duration}s.txt"
+    log_file = f"logs/pytorch_{duration}s.csv"
     log_performance(
         logfile=log_file,
         test_duration=duration,
