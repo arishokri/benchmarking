@@ -4,20 +4,7 @@ from datetime import datetime
 import os
 import platform
 from typing import Tuple
-
-
-def get_platform_dependencies() -> (
-    str
-):  # Modify this to also distinguish between WSL and Linux runs.
-    if platform.system() != "Darwin":
-        import psutil
-        import pynvml
-
-        # Initialize NVML to access GPU stats
-        pynvml.nvmlInit()
-        return "non-darwin"
-    else:
-        return "darwin"
+import re
 
 
 def stress_gpu_with_matrix_operations(matrix_size, iterations, torch_device) -> float:
@@ -46,45 +33,63 @@ def stress_gpu_with_matrix_operations(matrix_size, iterations, torch_device) -> 
     return runtime
 
 
-def get_gpu_temp() -> Tuple[int, int]:
-    handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # Assumes the first GPU
-    temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
-    utilization = pynvml.nvmlDeviceGetUtilizationRates(handle).gpu
-    return temp, utilization
+def get_gpu_temp(system="Linux") -> Tuple[int, int]:
+    # Only works on Linux platform.
+    if system == "Linux":
+        pynvml.nvmlInit()
+        handle = pynvml.nvmlDeviceGetHandleByIndex(0)  # Assumes the first GPU
+        temp = pynvml.nvmlDeviceGetTemperature(handle, pynvml.NVML_TEMPERATURE_GPU)
+        utilization = pynvml.nvmlDeviceGetUtilizationRates(handle)
+        clock = utilization.gpu
+        memory = utilization.memory
+    elif system == "Darwin":
+        temp = clock = memory = "Running on Darwin System"
+    else:
+        temp = clock = memory = "Running on Unknown OperatingSystem"
+    return temp, clock, memory
 
 
-def get_cpu_temp() -> int:
+def get_cpu_temp(system="Linux") -> int:
     """
     This will only work on Linux
     On Linux, this reads temperatures from system sensors.
     psutil.sensors_temperatures() provides info if available.
     """
-    temps = psutil.sensors_temperatures()
-    if "coretemp" in temps:
-        cpu_temp = temps["coretemp"][0].current  # Gets the first core temp
+    if system == "Linux":
+        temps = psutil.sensors_temperatures()
     else:
-        cpu_temp = None
-    return cpu_temp
+        temps = None
+    if "coretemp" in temps:  # Gets a sample of CPU temp readings.
+        n_sensors = len(temps["coretemp"])
+        package_temp = temps["coretemp"][0].current
+        core_1 = temps["coretemp"][n_sensors // 2].current
+        core_2 = temps["coretemp"][n_sensors - 1].current
+    else:
+        package_temp = core_1 = core_2 = None
+    return package_temp, core_1, core_2
 
 
-def log_performance(logfile, test_duration=60, matrix_size=1024, iterations=10) -> None:
-    plat = get_platform_dependencies()
+def log_performance(
+    logfile, test_duration=60, matrix_size=1024, iterations=10, system="Linux"
+) -> None:
+    if system == "Linux":
+        torch_device = "cuda"
+    elif system == "Darwin":
+        torch_device = "mps"
+    else:
+        raise SystemError("Unknown/Unsupported Operating System")
+
     with open(logfile, "a") as f:
-        f.write(
-            "Timestamp, GPU Temp (°C), GPU Utilization (%), CPU Temp (°C), Matrix Time (s)\n"
-        )
+        header = ("Timestamp, GPU Temp (°C), GPU Clock (%), GPU Memory (%), "
+                  "CPU Package (°C), CPU Core 1 (°C), CPU Core 2 (°C), Matrix Time (s)\n")
+        print(header + "\n")
+        f.write(header)
         start_time = time.time()
         # Perform matrix operation and log its duration
         while time.time() - start_time < test_duration:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            if plat == "linux":
-                gpu_temp, gpu_util = get_gpu_temp()
-                cpu_temp = get_cpu_temp()
-                torch_device = "cuda"
-            elif plat == "darwin":
-                gpu_temp = gpu_util = f"running on {plat}"
-                cpu_temp = f"running on {plat}"
-                torch_device = "mps"
+            gpu_temp, gpu_clock, gpu_memory = get_gpu_temp(system=system)
+            cpu_package, cpu_core_1, cpu_core_2 = get_cpu_temp(system=system)
             matrix_time = stress_gpu_with_matrix_operations(
                 matrix_size=matrix_size,
                 iterations=iterations,
@@ -92,21 +97,9 @@ def log_performance(logfile, test_duration=60, matrix_size=1024, iterations=10) 
             )
             # Get CPU and GPU metrics on systems that support them.
             # Log metrics
-            log_entry = (
-                f"{timestamp}, {gpu_temp}, {gpu_util}, {cpu_temp}, {matrix_time: .4f}\n"
-            )
-            # Optional, track memory release and allocation.
-            #             allocated_bytes = torch.cuda.memory_stats_as_nested_dict()[
-            #                 "allocated_bytes"
-            #             ]["all"]
-            #             print(
-            #                 f"""
-            # current bytes: {allocated_bytes["current"]}
-            # total allocated: {allocated_bytes["allocated"]}
-            # total freed: {allocated_bytes["freed"]}
-            #             """
-            #             )
-            # torch.cuda.empty_cache()
+            log_entry = (f"{timestamp}, {gpu_temp}, {gpu_clock}, {gpu_memory}, "
+                         f"{cpu_package}, {cpu_core_1}, {cpu_core_2}, {matrix_time:.4f}\n")
+            
             print(log_entry.strip())
             f.write(log_entry)
             # Wait for a number of seconds.
@@ -114,14 +107,24 @@ def log_performance(logfile, test_duration=60, matrix_size=1024, iterations=10) 
 
 
 if __name__ == "__main__":
-    duration = 300  # sets test duration in seconds
+    duration = 300  # Sets test duration in seconds.
     matrix_size = 15000
     iterations = 100
+    system = platform.system()
+    if system == "Linux":
+        import psutil
+        import pynvml
+
+        torch_device = "cuda"
+    elif platform.system() == "Darwin":
+        torch_device = "mps"
+
     os.makedirs("logs", exist_ok=True)
-    log_file = f"logs/pytorch_{duration}s"
+    log_file = f"logs/pytorch_{duration}s.txt"
     log_performance(
         logfile=log_file,
         test_duration=duration,
         matrix_size=matrix_size,
         iterations=iterations,
+        system=system,
     )

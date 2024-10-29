@@ -5,10 +5,10 @@
 * For WSL2 setting, because of Beelink's smaller usable RAM, I had to reduce the matrix size to 15000^4.
 
 ## Asus Rig Corei9-12900k RTX 3090Ti
-|         | CPU | GPU_tf | GPU_pt |
-|---------|-----|--------|--------|
-| Pop! OS |     |   N/A  |        |
-| WSL2    | 77s |   N/A  |   24s  |
+|         |  CPU | GPU_tf | GPU_pt |
+|---------|------|--------|--------|
+| Pop! OS | 119s |   N/A  |   24s  |
+| WSL2    |  77s |   N/A  |   24s  |
 
 
 ## Beelink Ryzen 7 5800h
